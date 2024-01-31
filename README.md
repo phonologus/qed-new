@@ -12,7 +12,7 @@ a powerful, if somewhat cryptic, programming language.
 The version here has been updated to compile on a modern ANSI/POSIX
 system, and has had the ability to work with UTF-8 encoded text added.
 
-This port supercedes, and renders obsolete, my previous port [here][Q].
+This port supersedes, and renders obsolete, my previous port [here][Q].
 
 [Q]: https://github.com/phonologus/QED
 
@@ -115,7 +115,7 @@ in [`/man/manb/qed.1`][4].
 [4]: https://www.tuhs.org/cgi-bin/utree.pl?file=V10/man/manb/qed.1
 
 The library of _qed_ programs is derived from Rob Pike's `q`
-directory, found in Arnold Robbin's _qed-archive_ [here][5].
+directory, found in Arnold Robbins' _qed-archive_ [here][5].
 The library seems to be an updated version of a similar library that
 was released with an earlier version of the _qed_ sourcecode
 at the 1980 Usenix Delaware conference, and available at
