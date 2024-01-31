@@ -102,7 +102,7 @@ Sources
 
 This version of _qed_ is derived from the Research Unix Version 8
 sources available from the Unix Archive [here][1], and located
-in [`/usr/local/src/cmd/qed`][2].
+in [`/usr/src/cmd/qed`][2].
 
 [1]: https://www.tuhs.org/Archive/Distributions/Research/Dan_Cross_v8/
 [2]: https://www.tuhs.org/cgi-bin/utree.pl?file=V8/usr/src/cmd/qed
