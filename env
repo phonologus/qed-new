@@ -1,0 +1,14 @@
+#!/bin/sh
+
+export QEDHOME="$HOME/.qed"
+export QEDLIB="$QEDHOME/lib"
+export QEDFILE="$QEDLIB/qedrc"
+
+case ":${PATH}:" in
+   *:"$QEDHOME/bin":*)
+      ;;
+   *)
+      export PATH="$QEDHOME/bin:$PATH"
+      ;;
+esac
+
