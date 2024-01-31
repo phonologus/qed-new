@@ -97,6 +97,8 @@ int
 compsub(int subbing, int *autop)
 {
    int seof, c;
+   static char rhsmagic1[] = "/&^\n\\123456789";
+   static char rhsmagic2[] = "/\\\n";
    char *rhsmagic;
    char *p;
 
@@ -104,10 +106,10 @@ compsub(int subbing, int *autop)
    seof = getchar();
    if(subbing) {
       compile(seof);
-      rhsmagic = "/&^\n\\123456789";
+      rhsmagic = rhsmagic1;
    }
    else
-      rhsmagic = "/\\\n";
+      rhsmagic = rhsmagic2;
    rhsmagic[0] = seof;
    p = rhsbuf;
    startstring();
