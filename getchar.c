@@ -22,7 +22,7 @@ int
 geto(int d)    /* get octal number with at most d digits */
 {
    int n, i;
-   char digits[]="01234567";
+   static char digits[]="01234567";
    n=0;
    while(d-- && ((i=posn(nextchar(), digits)) >= 0)){
       getchar();
