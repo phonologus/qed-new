@@ -1,0 +1,23 @@
+""Qed
+"
+" set browse to page + line numbers
+ob22P
+" set <return> behaviour to undo the blank line
+" (ESC[F on ANSI-compatible terminals) 
+oB""[F"+p
+" The following mostly from Pike's q/qfile
+" See his q/qfile.help for comments
+zb:G@	\cl@f\cN
+zc:s@$@	/* \cl */@ p
+zf:-/^[a-zA-Z_].*(/
+zg:o?c yf w\cN!com \cf
+zi:zX/[0-9]+/ s//\cz#+X/p
+zj:a \cl\cNjp
+zm:o?c yf w\cN zX:\cf\cN zXs/\..*$/\czS/ ""!make \czX\cN!make \czX
+zq{QEDLIB}
+zqs@$@/@
+zr:zL#r z}:\cB\cN ovr b~E \czqRun\cN \cb~\cN b\cz}
+zs:s\cl@@\c'r@p
+zw:s\cl@[A-Za-z0-9]+@\c'l@p
+zx:s\cl@[A-Za-z0-9]+\_@@p
+b~Z  " Nuke this buffer after it has done
