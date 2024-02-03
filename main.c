@@ -249,6 +249,7 @@ main(int argc, char **argv)
    char buf;
    int rvflag;
    char *startup=(char *)0;
+   int optend=0;
 
    argv++;
    onquit = signal(SIGQUIT, SIG_IGN);
@@ -261,7 +262,7 @@ main(int argc, char **argv)
    }
    /* initialize strfree */
    string[NSTRING].str = strchars;
-   while(argc > 1 && **argv=='-'){
+   while(!optend && argc > 1 && **argv=='-'){
       switch(argv[0][1]){
       casedefault:
       default:
@@ -289,6 +290,9 @@ main(int argc, char **argv)
          startup = argv[1];
          argv++;
          --argc;
+      case '-':
+         optend++;
+         break;
       }
       argv++;
       --argc;

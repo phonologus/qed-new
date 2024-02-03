@@ -19,6 +19,8 @@ qed \- multi-file text editor
 ] [
 .B \-x
 startupfile
+] [
+.B \-\-
 ] [ filename1 filename2 ... ]
 .SH DESCRIPTION
 \fIQed\fP
@@ -90,6 +92,14 @@ The argument
 s are set in the buffers before the startup file is executed,
 so the startup file can treat the \fIfilenames\fR as arguments.
 The default startup file may be overridden with the \fB\-x\fR option.
+.PP
+The \fB\-\-\fR option can be used to signal explicitly the
+end of the commandline options. All following arguments will be
+understood as filenames. 
+.PP
+.I
+Qed
+silently ignores any other commandline options.
 .PP
 Input to
 .I qed
