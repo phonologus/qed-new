@@ -97,6 +97,16 @@ _Count_ register. For example:
     zCp
         6    "match ends at index 6
 
+Documentation
+=============
+
+_Qed_ is fully described in the included manpage `qed(1)`. However,
+gaining a working knowledge of _Qed_ is not trivial. For a tutorial
+on _Qed's_ advanced features, see my edited and updated version
+of Rob Pike's original _Qed Turorial_ [here][R]. 
+
+[R]: https://github.com/phonologus/qed-book
+
 Sources
 =======
 
