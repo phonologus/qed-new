@@ -2,8 +2,8 @@
 #define FUNCSDOTH
 
 /* alloc.c */
-void *qlloc(int);
-void *reqlloc(void *, int);
+void *qlloc(size_t);
+void *reqlloc(void *, size_t);
 
 /* address.c */
 

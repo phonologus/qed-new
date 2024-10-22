@@ -571,10 +571,20 @@ strcom(int z)
 void
 strinc(int z, int n)
 {
-   char uc[4];
-   char *q, *p;
-   int c,i;
+   char *q;
+
    q=string[z].str;
+
+   if(aflag){
+      while(*q)
+         *q++ +=n;
+      return;
+   }
+
+   char uc[4];
+   char *p;
+   int c,i;
+
    startstring();
    while(*q){
       p=uc;

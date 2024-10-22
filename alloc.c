@@ -1,10 +1,10 @@
 #include "qed.h"
 
-void *qlloc(int);
-void *reqlloc(void *, int);
+void *qlloc(size_t);
+void *reqlloc(void *, size_t);
 
 void *
-qlloc(int n)
+qlloc(size_t n)
 {
    void *p;
    if((p=malloc(n))==NULL)
@@ -14,7 +14,7 @@ qlloc(int n)
 }
 
 void *
-reqlloc(void *p, int n)
+reqlloc(void *p, size_t n)
 {
    void *r;
    if((r=realloc(p,n))==NULL)

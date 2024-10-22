@@ -12,23 +12,12 @@
 #define QUOTED(c) ((c) & ESCAPE)
 #define UNQUOT(c) ((c) & UNESCAPE)
 
-#define u_incr(p) u_incrp(&(p))
-#define u_decr(p) u_decrp(&(p))
-#define u_postincr(p) u_postincrp(&(p))
-#define u_postdecr(p) u_postdecrp(&(p))
-
-#define u_load(p,c,q) u_loadp(&(p),c,&(q))
-#define u_loadc(p,c,q) u_loadcp(&(p),c,&(q))
-#define u_loadf(p,c,f) u_loadfp(&(p),c,f)
-#define u_loadcf(p,c,f) u_loadcfp(&(p),c,f)
-
-#define BIGTMP LOTSOFBITS
 extern jmp_buf env;
 #define setexit() setjmp(env)
 #define reset() longjmp(env, 0)
 #define TRUE 1
 #define FALSE 0
-#define LBSIZE 512
+#define LBSIZE 4096
 #define RHSIZE (LBSIZE/4) /* ed says /2; but that's unreasonable! */
 #define NBRA 9
 #define EOF (-1)
@@ -109,6 +98,7 @@ extern struct buffer *curbuf;
 #define BROWSE (SAVRHS+1)
 #define FILEBUF (BROWSE+1)
 struct string{
+  int size;
   int len;
   char *str;
 };

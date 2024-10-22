@@ -1,15 +1,9 @@
 #include "qed.h"
 #define BLKSIZE 512
-#ifdef BIGTMP
-#define MAXBLOCKS 4095
-#else
-#define MAXBLOCKS 255
-#endif
-#define BLMASK MAXBLOCKS
-char ibuff[512];
+char ibuff[BLKSIZE];
 int iblock = -1;
 int oblock = 0;
-char obuff[512];
+char obuff[BLKSIZE];
 int ooff; /* offset of next byte in obuff */
 
 void initio(void);
@@ -31,25 +25,25 @@ char *
 getline(int tl, char *lbuf)
 {
    char *bp, *lp;
-   int nl;
+   int nl,nb;
 
    bp = (char *)0;
    lp = lbuf;
-   nl = -((tl<<1) & 0774);
-   tl = (tl>>8) & BLMASK;
+   nl = -((tl<<1) & (BLKSIZE-1) & ~03);
+   nb = tl/(BLKSIZE/2);
    do {
       if (nl<=0) {
-         if (tl==oblock)
+         if (nb==oblock)
             bp = obuff;
          else {
             bp = ibuff;
-            if (tl!=iblock) {
+            if (nb!=iblock) {
                iblock = -1;   /* signal protection */
-               blkrd(tl, bp);
+               blkrd(nb, bp);
                iblock = tl;
             }
          }
-         tl++;
+         nb++;
          bp -= nl;
          nl += BLKSIZE;
       }
@@ -65,7 +59,7 @@ putline(void)
 
    modified();
    lp = linebuf;
-   r = (oblock<<8) + (ooff>>1);   /* ooff may be 512! */
+   r = (oblock<<8) + (ooff>>1);   /* ooff may be BLKSIZE! */
    op = obuff + ooff;
    lock++;
    do {
@@ -81,25 +75,23 @@ putline(void)
          break;
       }
    } while (*op++);
-   ooff = (((op-obuff)+3)&~3);
+   ooff = (((op-obuff)+3)&~03);
    unlock();
    return (r);
 }
 void
 blkrd(int b, char *buf)
 {
-   if (b>=MAXBLOCKS
-   || (lseek(tfile, ((long) b) * 512L, 0)<0L)
-   || read(tfile, buf, 512) != 512) {
+   if ((lseek(tfile, ((long) b) * BLKSIZE, 0)<0L)
+   || read(tfile, buf, BLKSIZE) != BLKSIZE) {
       error('T');
    }
 }
 void
 blkwr(int b, char *buf)
 {
-   if (b>=MAXBLOCKS
-   || (lseek(tfile, ((long) b) * 512L, 0)<0L)
-   || write(tfile, buf, 512) != 512) {
+   if ((lseek(tfile, ((long) b) * BLKSIZE, 0)<0L)
+   || write(tfile, buf, BLKSIZE) != BLKSIZE) {
       error('T');
    }
 }

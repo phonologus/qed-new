@@ -57,10 +57,11 @@ clean:
 	rm -f a.out *.o
 
 install: a.out qed.1 $(QLIB) env
+	rm -rf $(LOCALD)
 	$(INSTALL) -d $(BINDIR) $(LIBDIR) $(MANDIR)
 	$(INSTALL) -s a.out $(BINDIR)/qed
-	$(INSTALL) qed.1 $(MANDIR)
-	$(INSTALL) $(QLIB) $(LIBDIR)
+	$(INSTALL) -m 0644 qed.1 $(MANDIR)
+	$(INSTALL) -m 0644 $(QLIB) $(LIBDIR)
 	$(INSTALL) env $(LOCALD)
 	@echo ""
 	@echo "Add the following line to your shell profile:"
