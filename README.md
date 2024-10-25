@@ -59,12 +59,12 @@ The `a` option can be set from the commandline, with option `-a`, and/or
 it can be set or reset at any time by issuing the `oas` or `oar` commands,
 as with _qed_'s other options.
 
-**Beware!** Since the last used regular expression is saved in its
+**BEWARE!** Since the last used regular expression is saved in its
 compiled form for possible
 re-use, unexpected results can occur if the regular expression was first
-compiled in one mode, and is reinvoked when in the other mode!
+compiled in UTF-8 mode, and is reinvoked when in 8-bit mode, and _vice versa._
 
-**Beware!** The rendering of UTF-8 encoded text is entirely under the control
+**BEWARE!** The rendering of UTF-8 encoded text on-screen is entirely under the control
 of the terminal running _qed_. _Qed_ itself has no understanding of
 Unicode semantics, such as character width or directionality. This
 means that some of the visually-orientated features of _qed_
@@ -130,10 +130,12 @@ The library seems to be an updated version of a similar library that
 was released with an earlier version of the _qed_ sourcecode
 at the 1980 Usenix Delaware conference, and available at
 the Unix Archive [here][6], in directory `boulder/caltech`
-in the archive `usenix_80_delaware.tar.gz`.
+in the archive `usenix_80_delaware.tar.gz`. It is also available
+in Arnold Robbins' _qed-archive_ [here][7].
 
 [5]: https://github.com/arnoldrobbins/qed-archive/tree/master/unix-1992/
 [6]: https://www.tuhs.org/Archive/Applications/Shoppa_Tapes/
+[7]: https://github.com/arnoldrobbins/qed-archive/tree/master/usenix-80-caltech/
 
 Authors
 =======
@@ -141,7 +143,10 @@ Authors
 The original sourcecode for _qed_ was written by Tom Duff, Rob Pike,
 Hugh Redelmeier and David Tilbrook at the University of Toronto
 in the late 1970's, based on the U. of T.'s version of the Unix
-Version 6 editor _ed_.
+Version 6 editor _ed_. The original sourcecode and documentation for
+this U. of T. _ed_ was distributed along with the _qed_ sourcecode in
+the 1980 Usenix bundle mentioned above, and is available [here][7], in
+directory `./ed`.
 
 In 2024, Sean Jensen reformatted the authors' original
 sourcecode to be ANSI-compliant C, and made changes to (i) make
@@ -151,6 +156,6 @@ capabilities for processing UTF-8 encoded text.
 He also added some text to the manpage describing these
 new capabilities.
 
-The source files `alloc.c`, `u.c` and `utf.[ch]` were written entirely
+The source files `alloc.c`, `u.[ch]` and `utf.[ch]` were written entirely
 by Sean Jensen.
 
