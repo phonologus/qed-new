@@ -144,7 +144,7 @@ void nonzero(void);
 
 /* string.c */
 
-int length(char *s);
+size_t length(char *s);
 void startstring(void);
 void addstring(int c);
 void dropstring(void);
@@ -154,7 +154,7 @@ void clearstring(int z);
 void copystring(char *s);
 int eqstr(char *a, char  *b);
 void dupstring(int z);
-void setstring(int n);
+void setstring(int z);
 void strcompact(void);
 
 /* subs.c */

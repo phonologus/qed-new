@@ -3,7 +3,7 @@
 char *strstart;
 
 
-int length(char *s);
+size_t length(char *s);
 void startstring(void);
 void addstring(int c);
 void dropstring(void);
@@ -13,10 +13,10 @@ void clearstring(int z);
 void copystring(char *s);
 int eqstr(char *a, char  *b);
 void dupstring(int z);
-void setstring(int n);
+void setstring(int z);
 void strcompact(void);
 
-int
+size_t
 length(char *s)
 {
    char *t;
@@ -89,13 +89,13 @@ dupstring(int z)
    copystring(string[z].str);
 }
 void
-setstring(int n)
+setstring(int z)
 {
    addstring('\0');
-   if((string[n].len = length(strstart)) == 0)
-      string[n].str = nullstr;
+   if((string[z].len = length(strstart)) == 0)
+      string[z].str = nullstr;
    else
-      string[n].str = strstart;
+      string[z].str = strstart;
    if(strfree >= strchars + NSTRCHARS)
       strcompact();
 }

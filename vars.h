@@ -98,8 +98,8 @@ extern struct buffer *curbuf;
 #define BROWSE (SAVRHS+1)
 #define FILEBUF (BROWSE+1)
 struct string{
-  int size;
-  int len;
+  size_t size;
+  size_t len;
   char *str;
 };
 extern struct string string[NSTRING+1];
