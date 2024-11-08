@@ -201,8 +201,8 @@ getc(void)
                p = bufbuf+sp->charno;
             sp->charno++;
             if((c = *p) == '\0'){
-					/*
-					 * Leave the last newline in the buffer out.
+               /*
+                * Leave the last newline in the buffer out.
                 */
                bbempty = TRUE;
                if(lp>=bufp->dol)
