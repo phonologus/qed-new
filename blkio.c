@@ -82,7 +82,7 @@ putline(void)
 void
 blkrd(int b, char *buf)
 {
-   if ((lseek(tfile, ((long) b) * BLKSIZE, 0)<0L)
+   if ((lseek(tfile, ((long) b) * BLKSIZE, SEEK_SET)<0L)
    || read(tfile, buf, BLKSIZE) != BLKSIZE) {
       error('T');
    }
@@ -90,7 +90,7 @@ blkrd(int b, char *buf)
 void
 blkwr(int b, char *buf)
 {
-   if ((lseek(tfile, ((long) b) * BLKSIZE, 0)<0L)
+   if ((lseek(tfile, ((long) b) * BLKSIZE, SEEK_SET)<0L)
    || write(tfile, buf, BLKSIZE) != BLKSIZE) {
       error('T');
    }
