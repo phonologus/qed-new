@@ -40,7 +40,7 @@ getline(int tl, char *lbuf)
             if (nb!=iblock) {
                iblock = -1;   /* signal protection */
                blkrd(nb, bp);
-               iblock = tl;
+               iblock = nb;
             }
          }
          nb++;
