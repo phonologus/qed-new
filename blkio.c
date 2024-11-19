@@ -4,7 +4,7 @@ char ibuff[BLKSIZE];
 int iblock = -1;
 int oblock = 0;
 char obuff[BLKSIZE];
-int ooff; /* ptr of next byte in obuff */
+int ooff; /* offset of next byte in obuff */
 
 void initio(void);
 char * getline(ldesc tl, char *lbuf);
