@@ -37,9 +37,7 @@ address(void)
             error('k');
          a = zero;
          c = posn(c, bname);   /* outside loop for efficiency */
-         do {
-            a++;
-         } while (a<=dol && names[c].ptr!=a->ptr);
+         do a++; while (a<=dol && names[c].ptr!=a->ptr);
          break;
       case '?':
          sign = -sign;
