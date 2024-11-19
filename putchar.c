@@ -64,7 +64,7 @@ display(int lf)
       if(nf){
          putlong(r++);
          for(i=0; i<NBUFS; i++)
-            if((a1->ptr == names[i].ptr) && names[i].flags){
+            if(a1->ptr == names[i].ptr){
                putchar('\'');
                putchar(bname[i]);
             }
