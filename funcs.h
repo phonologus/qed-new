@@ -7,13 +7,13 @@ void *reqlloc(void *, size_t);
 
 /* address.c */
 
-int * address(void);
+ldesc * address(void);
 
 /* blkio.c */
 
 void initio(void);
-char * getline(int tl, char *lbuf);
-int putline(void);
+char * getline(ldesc tl, char *lbuf);
+ldesc putline(void);
 void blkrd(int b, char *buf);
 void blkwr(int b, char *buf);
 
@@ -22,10 +22,10 @@ void blkwr(int b, char *buf);
 void jump(void);
 void stacktype(int t);
 void getlabel(void);
-int * looper(int *a1, int  *a2, char *str, int dir);
+ldesc * looper(ldesc *a1, ldesc  *a2, char *str, int dir);
 void search(int forward);
 void setapp(void);
-int append(int (*f)(void), int *a);
+int append(int (*f)(void), ldesc *a);
 void bcom(void);
 void delete(void);
 void allnums(void);
@@ -91,11 +91,11 @@ void delall(void);
 /* misc.c */
 
 void morecore(size_t x);
-void bufinit(int *n);
+void bufinit(ldesc *n);
 void chngbuf(int bb);
 void newbuf(int bb);
 void fixbufs(int n);
-void relocatebuf(int *from, int *to);
+void relocatebuf(ldesc *from, ldesc *to);
 void shiftbuf(int up);
 void syncbuf(void);
 void error(int code);
@@ -111,14 +111,14 @@ void modified(void);
 
 void move(int copyflag);
 void fixup(int from, int to, int tot);
-void reverse(int *a1, int  *a2);
+void reverse(ldesc *a1, ldesc *a2);
 int getcopy(void);
 
 /* pattern.c */
 
 void compile(char eof);
 int getsvc(void);
-int execute(int *addr);
+int execute(ldesc *addr);
 int advance(char *lp, char  *ep);
 int backref(int i, char *lp);
 int alfmatch(char c, int tail);
@@ -165,7 +165,7 @@ int getsub(void);
 void dosub(void);
 void place(char *l1, char *l2, int ucase);
 void undo(void);
-void replace(int *line, int ptr);
+void replace(ldesc *line, ldesc ptr);
 void join(void);
 int next_col(int col, char *cp, int input);
 void xform(void);

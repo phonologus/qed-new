@@ -2,13 +2,13 @@
 
 void move(int copyflag);
 void fixup(int from,int to,int tot);
-void reverse(int *a1, int  *a2);
+void reverse(ldesc *a1, ldesc  *a2);
 int getcopy(void);
 
 void
 move(int copyflag)
 {
-   int *adt, *ad1, *ad2;
+   ldesc *adt, *ad1, *ad2;
    int fb, tb;
    int todot;
    int tonewdot;
@@ -120,9 +120,9 @@ fixup(int from,int to,int tot)
 }
 
 void
-reverse(int *a1, int  *a2)
+reverse(ldesc *a1, ldesc *a2)
 {
-   int t;
+   ldesc t;
    for (;;) {
       t = *--a2;
       if (a2 <= a1)

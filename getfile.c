@@ -121,7 +121,7 @@ getfile(void)
 void
 putfile(void)
 {
-   int *a1;
+   ldesc *a1;
    char *fp, *lp;
    int nib;
    nib = 512;
@@ -137,7 +137,7 @@ putfile(void)
          if (--nib < 0) {
             if(write(io, genbuf, fp-genbuf) < 0)
                error('w');
-            nib = 511;
+            nib = (sizeof genbuf)-1;
             fp = genbuf;
          }
 
@@ -168,14 +168,14 @@ Unix(char type)
 {
    int pid, rpid;
    char *s;
-   int *a, c;
+   int c;
    sig_t onbpipe;
    int retcode;
    char unixbuf[512];
    int   pipe1[2];
    int   pipe2[2];
-   int   *a1, *a2, *ndot;
-   ndot=(int*)0;
+   ldesc  *a, *a1, *a2, *ndot;
+   ndot=(ldesc*)0;
    startstring();   /* for the \zU */
    if(type == '!')
       setnoaddr();

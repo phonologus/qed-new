@@ -29,7 +29,7 @@ char pmagic[] = "/.$^*+\\()<|>{}[!_123456789";
 
 void compile(char eof);
 int getsvc(void);
-int execute(int *addr);
+int execute(ldesc *addr);
 int advance(char *lp, char  *ep);
 int backref(int i, char *lp);
 int alfmatch(char c, int tail);
@@ -257,7 +257,7 @@ getsvc(void)
    return(c);
 }
 int
-execute(int *addr)
+execute(ldesc *addr)
 {
    char *p1, *p2;
 

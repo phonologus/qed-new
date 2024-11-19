@@ -1,12 +1,13 @@
 #include "qed.h"
 
-int * address(void);
+ldesc * address(void);
 
-int *
+ldesc *
 address(void)
 {
-   int sign, *a;
-   int opcnt, nextopand, *b;
+   int sign;
+   ldesc *a, *b;
+   int opcnt, nextopand;
    int c;
 
    nextopand = -1;
@@ -36,7 +37,9 @@ address(void)
             error('k');
          a = zero;
          c = posn(c, bname);   /* outside loop for efficiency */
-         do a++; while (a<=dol && names[c]!=(*a|01));
+         do {
+            a++;
+         } while (a<=dol && names[c].ptr!=a->ptr);
          break;
       case '?':
          sign = -sign;
@@ -79,5 +82,5 @@ address(void)
    } while (zero<=a && a<=dol);
    error('$');
    /*NOTREACHED*/
-   return (int *)0;
+   return (ldesc *)0;
 }

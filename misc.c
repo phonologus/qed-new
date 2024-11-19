@@ -1,11 +1,11 @@
 #include "qed.h"
 
 void morecore(size_t x);
-void bufinit(int *n);
+void bufinit(ldesc *n);
 void chngbuf(int bb);
 void newbuf(int bb);
 void fixbufs(int n);
-void relocatebuf(int *from, int *to);
+void relocatebuf(ldesc *from, ldesc *to);
 void shiftbuf(int up);
 void syncbuf(void);
 void error(int code);
@@ -20,7 +20,7 @@ void modified(void);
 void
 morecore(size_t x)
 {
-   int *o1, *o2;
+   ldesc *o1, *o2;
    size_t n;
    o1=begcore;
    o2=fendcore;
@@ -34,7 +34,7 @@ morecore(size_t x)
 }
 
 void
-bufinit(int *n)
+bufinit(ldesc *n)
 {
    struct buffer *bufp;
    for(bufp=buffer;bufp!=buffer+NBUFS;bufp++){
@@ -73,7 +73,7 @@ fixbufs(int n)
    unlock();
 }
 void
-relocatebuf(int *from, int *to)
+relocatebuf(ldesc *from, ldesc *to)
 {
    struct buffer *bufp;
    lock++;
@@ -96,9 +96,9 @@ shiftbuf(int up)
       }
    else
       for(bufp=buffer;bufp!=buffer+NBUFS;bufp++){
-         bufp->zero=(int*)(bufp->zero-begcore);
-         bufp->dot=(int*)(bufp->dot-begcore);
-         bufp->dol=(int*)(bufp->dol-begcore);
+         bufp->zero=(ldesc*)(bufp->zero-begcore);
+         bufp->dot=(ldesc*)(bufp->dot-begcore);
+         bufp->dol=(ldesc*)(bufp->dol-begcore);
       }
 }
 void

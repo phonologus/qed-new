@@ -32,7 +32,7 @@ until(int nfl, int n)
 void
 global(int k)
 {
-   int *a1;
+   ldesc *a1;
    char globuf[GBSIZE];
    struct buffer *startbuf;
 
@@ -44,14 +44,14 @@ global(int k)
    compile(getchar());
    getglob(globuf);
    for (a1=zero; ++a1<=dol;) {
-      *a1 &= ~01;
+      a1->flags=0;
       if (a1>=addr1 && a1<=addr2 && execute(a1)==k)
-         *a1 |= 01;
+         a1->flags=1;
    }
    startbuf = curbuf;
    for (a1=zero; ++a1<=dol; ) {
-      if (*a1 & 01) {
-         *a1 &= ~01;
+      if (a1->flags) {
+         a1->flags=0;
          dot = a1;
          if (!exglob(globuf, "p"))
             break;

@@ -2,8 +2,8 @@
 
 char *next_new;
 char *next_old;
-int new_line;
-int old_line;
+ldesc new_line;
+ldesc old_line;
 char rhsbuf[RHSIZE];
 
 void substitute(int inglob, int reg);
@@ -12,7 +12,7 @@ int getsub(void);
 void dosub(void);
 void place(char *l1, char *l2, int ucase);
 void undo(void);
-void replace(int *line, int ptr);
+void replace(ldesc *line, ldesc ptr);
 void join(void);
 int next_col(int col, char *cp, int input);
 void xform(void);
@@ -23,7 +23,7 @@ substitute(int inglob, int reg)
    int n, m;
    char *p;
    char *q;
-   int *a1;
+   ldesc *a1;
    int gsubf;
    int t, count, autop=0;
 
@@ -57,7 +57,7 @@ substitute(int inglob, int reg)
             /* can't match same location twice */
             if (loc1==loc2)
                u_incr(loc2);
-         } while (execute((int *)0));
+         } while (execute((ldesc *)0));
          if (m<=0) {
             inglob |= TRUE;
             p=next_old;
@@ -217,9 +217,11 @@ place(char *l1, char *l2, int ucase)
 void
 undo(void)
 {
-   int *l;
+   ldesc *l;
 
-   for (l=zero+1; l<=dol && (*l|01)!=new_line; l++)
+   for (l=zero+1; l<=dol &&
+                  l->ptr!=new_line.ptr &&
+                  new_line.flags!=1; l++)
       ;
    if (l>dol)
       error('u');
@@ -227,22 +229,25 @@ undo(void)
    dot=l;
 }
 void
-replace(int *line, int ptr)
+replace(ldesc *line, ldesc ptr)
 {
-   int *p;
+   ldesc *p;
 
-   *line |= 01;
+   line->flags=1;
    for (p=names; p<names+NBUFS; p++)
-      if (*p == *line)
-         *p = ptr|01;
+      if ((p->ptr == line->ptr) && (p->flags == line->flags)){
+         *p = ptr;
+         p->flags=1;
+      }
    old_line = *line;
    *line = ptr;
-   new_line = ptr | 01;
+   new_line = ptr;
+   new_line.flags=1;
 }
 void
 join(void)
 {
-   int *l;
+   ldesc *l;
    char *p, *q;
    int rep;
    int autop=FALSE;
@@ -311,7 +316,8 @@ void
 xform(void)
 {
    char *i, *m, *o;
-   int *line, insert, change, ic, mc, c;
+   ldesc *line;
+   int insert, change, ic, mc, c;
    char *tf, *tl;
 
    if(getchar() != '\n')

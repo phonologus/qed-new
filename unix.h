@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <setjmp.h>
 #include <string.h>
+#include <assert.h>
 
 /* posix */
 

@@ -7,10 +7,10 @@ char jumpcs[] = "0123456789o`'";
 void jump(void);
 void stacktype(int t);
 void getlabel(void);
-int * looper(int *a1, int  *a2, char *str, int dir);
+ldesc * looper(ldesc *a1, ldesc *a2, char *str, int dir);
 void search(int forward);
 void setapp(void);
-int append(int (*f)(void), int *a);
+int append(int (*f)(void), ldesc *a);
 void bcom(void);
 void delete(void);
 void allnums(void);
@@ -98,8 +98,8 @@ getlabel(void)
    if(p==genbuf)
       error('y');
 }
-int *
-looper(int *a1, int  *a2, char *str, int dir)
+ldesc *
+looper(ldesc *a1, ldesc *a2, char *str, int dir)
 {
    char *p1;
    char *p2;
@@ -118,12 +118,12 @@ looper(int *a1, int  *a2, char *str, int dir)
       else
          --a1;
    }
-   return((int *)0);
+   return((ldesc *)0);
 }
 void
 search(int forward)
 {
-   int *a1;
+   ldesc *a1;
    struct buffer *bufp;
    bufp = stackp->bufptr;
    if(forward){
@@ -162,10 +162,10 @@ setapp(void)
 }
 
 int
-append(int (*f)(void), int *a)
+append(int (*f)(void), ldesc *a)
 {
-   int *a1, *a2, *rdot;
-   int nline, tl;
+   ldesc tl, *a1, *a2, *rdot;
+   int nline;
    appflag++;
    nline = 0;
    dot = a;
@@ -204,7 +204,7 @@ bcom(void)
 {
    int dir, n;
    int psize;
-   int *olddot=addr2;   /* for b. */
+   ldesc *olddot=addr2;   /* for b. */
    dir=1;
    if((peekc=getchar())!='\n'){   /* really nextchar() */
       if (peekc=='-' || peekc=='+' || peekc=='.') {
@@ -243,7 +243,7 @@ bcom(void)
 void
 delete(void)
 {
-   int *a1, *a2, *a3;
+   ldesc *a1, *a2, *a3;
    setdot();
    a1 = addr1;
    a2 = addr2;
@@ -658,7 +658,7 @@ ncom(int c)
       if(globflag){
          cpstr(f, lp);
          loc2 = 0;   /* ==> we are about to search for 1st time */
-         bufp->gmark = execute((int *)0);
+         bufp->gmark = execute((ldesc *)0);
       } else {
          *lp = '\0';
          lp = linebuf;

@@ -47,8 +47,8 @@ puts(char *sp)
 void
 display(int lf)
 {
-   int *a1;
-   unsigned long r;
+   ldesc *a1;
+   ptrdiff_t r;
    char *p;
    int i;
    int nf;
@@ -64,7 +64,7 @@ display(int lf)
       if(nf){
          putlong(r++);
          for(i=0; i<NBUFS; i++)
-            if((*a1|01) == names[i]){
+            if((a1->ptr == names[i].ptr) && names[i].flags){
                putchar('\'');
                putchar(bname[i]);
             }

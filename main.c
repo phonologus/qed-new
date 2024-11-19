@@ -16,15 +16,15 @@ char line[70];
 char *linp = line;
 int savedfile;
 char linebuf[LBSIZE];
-int *zero;
-int *dot;
-int *dol;
-int  *lastdol;
-int *begcore;
-int *endcore;
-int *fendcore;
-int *addr1;
-int *addr2;
+ldesc *zero;
+ldesc *dot;
+ldesc *dol;
+ldesc  *lastdol;
+ldesc *begcore;
+ldesc *endcore;
+ldesc *fendcore;
+ldesc *addr1;
+ldesc *addr2;
 char genbuf[LBSIZE];
 char *linebp;
 struct termios ttybuf;
@@ -57,7 +57,7 @@ int tfile=-1;
 int tfile2=-1;
 char *loc1;
 char *loc2;
-int names[NBUFS];
+ldesc names[NBUFS];
 char *braslist[NBRA];
 char *braelist[NBRA];
 int nbra;
@@ -300,7 +300,7 @@ main(int argc, char **argv)
    tcgetattr(0,&ttybuf);
    if(startup==0)
       startup = getenv(QEDFILE);
-   begcore = (int *)qlloc(LDCHUNK*sizeof(int));
+   begcore = (ldesc *)qlloc(LDCHUNK*sizeof(ldesc));
    fendcore = begcore + LDCHUNK;
    curbuf = &buffer[0];
    init();
@@ -363,7 +363,7 @@ int noaddr;
 void
 commands(void)
 {
-   int *a;
+   ldesc *a;
    int c, lastsep;
    int r;
    int changed;
@@ -494,7 +494,8 @@ commands(void)
       c = getaz(c);
       setdot();
       nonzero();
-      names[c] = *addr2 | 01;
+      names[c] = *addr2;
+      names[c].flags=1;
       continue;
    case 'm':
       move(FALSE);
