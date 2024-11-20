@@ -58,6 +58,14 @@ extern char special[]/*="xgBbBcfFlprzN\"\\'0"*/;
 #define nextchar() (peekc = getchar())
 #define NBUFS 56
 /*
+ * the line descriptor type
+ */
+struct ldesc {
+   off_t ptr;
+   unsigned char flags;
+};
+typedef struct ldesc ldesc;
+/*
  * The buffer structure.  All info associated with each buffer stored here
  */
 struct buffer{

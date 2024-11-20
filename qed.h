@@ -4,9 +4,8 @@
 #include "unix.h"
 #include "utf.h"
 #include "u.h"
-#include "line.h"
-#include "funcs.h"
 #include "vars.h"
+#include "funcs.h"
 
 #endif
 
