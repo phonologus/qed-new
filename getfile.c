@@ -230,7 +230,6 @@ Unix(char type)
             dup(pipe2[1]);
             close(pipe2[0]);
             close(pipe2[1]);
-            tfile = tfile2; /* ugh */
 	/*
 	 * It's ok if we get SIGPIPE here
          */
