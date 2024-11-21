@@ -156,6 +156,6 @@ capabilities for processing UTF-8 encoded text.
 He also added some text to the manpage describing these
 new capabilities.
 
-The source files `alloc.c`, `u.[ch]` and `utf.[ch]` were written entirely
-by Sean Jensen.
+The source files `alloc.c`, `bytes.[ch], `u.[ch]` and `utf.[ch]` were
+written entirely by Sean Jensen.
 

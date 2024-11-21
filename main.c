@@ -135,10 +135,34 @@ fileb(void)
    sp->str[sp->len-2] = 'b';
    return(sp->str);
 }
+#define LWIDTH 8
+void
+write_long(int fd, long n)
+{
+   unsigned char b[LWIDTH];
+
+   set_val_le(n, LWIDTH, b);
+   
+   if(write(fd,(char *)b,LWIDTH) != LWIDTH)
+      error('S');
+    
+   return;
+}
+long
+read_long(int fd)
+{
+   unsigned char b[LWIDTH];
+   
+   if(read(fd,(char *)b,LWIDTH) != LWIDTH)
+      error('R');
+    
+   return get_val_le(LWIDTH,b);
+}
 void
 savall(void)
 {
    int fi;
+   unsigned long n;
 
    syncbuf();
    addr1 = buffer[0].zero + 1;
@@ -153,15 +177,21 @@ savall(void)
    exfile();
    if((fi = open(fileb(), O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
       error('o'|FILERR);
+   write_long(fi,n = sizeof buffer);
    lock++;
    shiftbuf(DOWN);
-   write(fi, (char *)buffer, sizeof buffer);
+   if(write(fi, (char *)buffer, n) != n)
+      error('S');;
    shiftbuf(UP);
    unlock();
-   write(fi, strarea, sizeof strarea);
+   write_long(fi,n = sizeof strarea);
+   if(write(fi, strarea, n) != n)
+      error('S');
+   write_long(fi,n = sizeof string);
    lock++;
    shiftstring(DOWN);
-   write(fi, (char *)string, sizeof string);
+   if(write(fi, (char *)string, n) != n)
+      error('S');;
    shiftstring(UP);
    unlock();
    close(fi);
@@ -170,6 +200,7 @@ void
 restor(void)
 {
    int t, fi;
+   unsigned long n;
    curbuf = buffer;
    if((t = open(filea(), 0)) < 0){
       lastc = '\n';
@@ -184,9 +215,17 @@ restor(void)
    if((fi = open(fileb(),0)) < 0)
       error('o'|FILERR);
    lock++;
-   if(read(fi,(char *)buffer,sizeof buffer) != sizeof buffer
-      || read(fi, strarea, sizeof strarea) != sizeof strarea
-      || read(fi, (char *)string, sizeof string) != sizeof string)
+   /* read size of buffer */
+   n=read_long(fi);
+   if(read(fi,(char *)buffer,n) != n)
+      error('R');
+   /* DO: read size of strarea */
+   n=read_long(fi);
+   if(read(fi, strarea,n) != n)
+      error('R');
+   /* DO: read size of string */
+   n=read_long(fi);
+   if(read(fi, (char *)string,n) != n)
       error('R');
    close(fi);
    shiftstring(UP);

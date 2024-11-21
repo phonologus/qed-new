@@ -17,6 +17,7 @@ QLIB=\
   q/*
 
 HDRS=\
+  bytes.h \
   vars.h \
   unix.h \
   funcs.h \
@@ -27,6 +28,7 @@ UNITS=\
   alloc \
   address \
   blkio \
+  bytes \
   com \
   getchar \
   getfile \
