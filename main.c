@@ -54,7 +54,6 @@ int nestlevel;
 int lastttyc='\n';
 int listf;
 int tfile=-1;
-int tfile2=-1;
 char *loc1;
 char *loc2;
 ldesc names[NBUFS];
@@ -339,9 +338,8 @@ main(int argc, char **argv)
    tcgetattr(0,&ttybuf);
    if(startup==0)
       startup = getenv(QEDFILE);
-   begcore = (ldesc *)qlloc(LDCHUNK*sizeof(ldesc));
-   fendcore = begcore + LDCHUNK;
-   curbuf = &buffer[0];
+   newcore(LDCHUNK);
+   curbuf = buffer;
    init();
    if (onhup != SIG_IGN)
       signal(SIGHUP, rescue);

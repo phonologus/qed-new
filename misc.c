@@ -1,5 +1,6 @@
 #include "qed.h"
 
+void newcore(size_t x);
 void morecore(size_t x);
 void bufinit(ldesc *n);
 void chngbuf(int bb);
@@ -17,6 +18,16 @@ void setcount(int c);
 int truth(void);
 void modified(void);
 
+void
+newcore(size_t x)
+{
+   if(x<3)
+      error('c');
+   free(begcore);
+   begcore = (ldesc *)qlloc(x*sizeof(ldesc));
+   fendcore = begcore + x;
+   endcore = fendcore - 2;
+}
 void
 morecore(size_t x)
 {
@@ -76,12 +87,21 @@ void
 relocatebuf(ldesc *from, ldesc *to)
 {
    struct buffer *bufp;
+   ptrdiff_t d;
+   d=to-from;
    lock++;
    for(bufp=buffer;bufp!=buffer+NBUFS;bufp++){
-      bufp->zero=to+(bufp->zero-from);
-      bufp->dot=to+(bufp->dot-from);
-      bufp->dol=to+(bufp->dol-from);
+      bufp->zero+=d;
+      bufp->dot+=d;
+      bufp->dol+=d;
    }
+   /* fix the ldesc* globals */
+   zero+=d;
+   dot+=d;
+   dol+=d;
+   lastdol+=d;
+   addr1+=d;
+   addr2+=d;
    unlock();
 }
 void
@@ -177,18 +197,18 @@ init(void)
    int n=tfnX;
    lock++;
 
-   close(tfile);
+   if(tfile>0){
+      close(tfile);
+      unlink(tfname);
+   }
    p=tfname+strlen(tfname);
    while(n-->0)
       *--p='X';
    tfile = mkstemp(tfname);
-   tfile2 = open(tfname, O_RDWR);
    fcntl(tfile, F_SETFD, FD_CLOEXEC);
-   fcntl(tfile2, F_SETFD, FD_CLOEXEC);
    bufinit(begcore);
    newbuf(0);
    lastdol=dol;
-   endcore = fendcore - 2;
    stackp=stack;
    stackp->type=TTY;
    unlock();
