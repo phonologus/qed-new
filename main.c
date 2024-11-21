@@ -147,11 +147,11 @@ savall(void)
       error('$');
       return;
    }
-   if((io = creat(filea(), 0644)) < 0)
+   if((io = open(filea(), O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
       error('o'|FILERR);
    putfile();
    exfile();
-   if((fi = creat(fileb(), 0644)) < 0)
+   if((fi = open(fileb(), O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
       error('o'|FILERR);
    lock++;
    shiftbuf(DOWN);
@@ -657,8 +657,9 @@ commands(void)
          changed = (addr1>(zero+1) || addr2!=dol);
       if(c=='w' || (io=open(string[FILEBUF].str,1))==-1){
        Create:
-         if ((io = creat(string[FILEBUF].str, 0666)) < 0)
-            error('o'|FILERR);
+         if ((io = open(string[FILEBUF].str,
+            O_CREAT | O_TRUNC | O_WRONLY, 0666)) < 0)
+               error('o'|FILERR);
       }else{
          if((locn=lseek(io, 0L, SEEK_END)) == -1L)
             goto Create;
