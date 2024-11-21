@@ -25,10 +25,10 @@ morecore(size_t x)
    o1=begcore;
    o2=fendcore;
    n=x+(o2-o1);
-   begcore=reqlloc(begcore,n * sizeof *begcore);
+   begcore=reqlloc(begcore,n * sizeof(ldesc));
    fendcore=begcore+n;
    endcore=fendcore-2;
-   memset(begcore+(o2-o1),0,x);
+   memset(begcore+(o2-o1),0,x * sizeof(ldesc));
    if(o1!=begcore)
       relocatebuf(o1,begcore);
 }
