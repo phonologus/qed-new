@@ -35,7 +35,7 @@ morecore(size_t x)
    size_t n;
    o1=begcore;
    o2=fendcore;
-   n=x+(o2-o1);
+   n=(o2-o1)+x+(LDCHUNK-1) & ~(LDCHUNK-1);
    begcore=reqlloc(begcore,n * sizeof(ldesc));
    fendcore=begcore+n;
    endcore=fendcore-2;
