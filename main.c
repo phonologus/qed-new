@@ -12,7 +12,7 @@ struct stack *stackp;
 
 int peekc;
 int lastc;
-char line[70];
+char line[LINECHARS];
 char *linp = line;
 int savedfile;
 char linebuf[LBSIZE];

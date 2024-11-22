@@ -111,7 +111,7 @@ struct string{
   char *str;
 };
 extern struct string string[NSTRING+1];
-#define NSTRCHARS 4096 
+#define NSTRCHARS  65536   /* go big or go home */
 extern char strarea[NSTRCHARS + 2];
 #define nullstr strarea
 #define strchars (&strarea[2])
@@ -140,7 +140,9 @@ extern struct stack stack[STACKSIZE];
 extern struct stack *stackp;
 extern int peekc;
 extern int lastc;
-extern char line[70];
+#define TABCHARS 8
+#define LINECHARS 80 /* multiple of TABCHARS */
+extern char line[LINECHARS];
 extern char *linp;
 extern int savedfile;
 extern char linebuf[LBSIZE];
@@ -184,7 +186,6 @@ extern int nestlevel;
 extern int lastttyc;
 extern int listf;
 extern int tfile;
-extern int tfile2;
 extern char *loc1;
 extern char *loc2;
 extern ldesc names[NBUFS];

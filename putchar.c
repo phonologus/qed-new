@@ -70,7 +70,7 @@ display(int lf)
             }
          listf = 0;
          putchar('\t');
-         col = 8;
+         col = TABCHARS;
          listf = lf;
       }
       for(p = getline(*a1++,linebuf);*p;putchar(*p++));
@@ -98,11 +98,11 @@ putchar(char c)
             *lp++ = 'n';
          }
       } else {
-         if (col >= (72-4-2)) {
+         if (col >= (LINECHARS-4-2)) {
             *lp++ = '\\';
             *lp++ = '\n';
             *lp++ = '\t';
-            col = 8;
+            col = TABCHARS;
          }
          col++;
          if (c=='\b' || c=='\\' || c=='\t') {
@@ -113,13 +113,13 @@ putchar(char c)
             *lp++ = '\\';
             *lp++ = ((c>>6)&03)+'0';
             *lp++ = ((c>>3)&07)+'0';
-            c = ( c &07)+'0';
+            c = (c&07)+'0';
             col += 3;
          }
       }
    }
    *lp++ = c;
-   if(c == '\n' || lp >= &line[(sizeof line)-2-4]) {
+   if(c == '\n' || lp >= &line[LINECHARS-2-4]) {
       linp = lp;
       flush();
       lp = linp;
