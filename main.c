@@ -96,8 +96,7 @@ rescue(int s)
    copystring("qed.hup");
    setstring(FILEBUF);
    savall();
-   free(begcore);
-   free(strarea);
+   freemem();
    exit(SIGHUP);
 }
 char *
@@ -247,8 +246,7 @@ interrupt(int s)
    }
    if(iflag){
       unlink(tfname);
-      free(begcore);
-      free(strarea);
+      freemem();
       exit(SIGINT);
    }
    linp=line;
@@ -388,8 +386,7 @@ main(int argc, char **argv)
    lastttyc = '\n';
    commands();
    unlink(tfname);
-   free(begcore);
-   free(strarea);
+   freemem();
    exit(lasterr);
 }
 
@@ -625,8 +622,7 @@ commands(void)
                error('q');
       }
       unlink(tfname);
-      free(begcore);
-      free(strarea);
+      freemem();
       exit(0);   /* exit(0) not lasterr, otherwise caller gets confused */ 
    case 'r':
       newfile(TRUE, SAVEIFFIRST, string[savedfile].str);

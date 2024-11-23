@@ -19,6 +19,7 @@ void settruth(int t);
 void setcount(int c);
 int truth(void);
 void modified(void);
+void freemem(void);
 
 void
 newcore(void)
@@ -185,8 +186,7 @@ error(int code)
          putchar('\n');
    }
    if(eflag && code){     /* temp file is *not* unlinked. Intentional? */
-      free(begcore);
-      free(strarea);
+      freemem();
       exit(code);
    }
    nestlevel = 0;
@@ -293,4 +293,11 @@ modified(void)
    cflag=TRUE;
    eok=FALSE;
    qok=FALSE;
+}
+
+void
+freemem(void)
+{
+   free(begcore);
+   free(strarea);
 }

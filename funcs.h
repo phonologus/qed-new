@@ -109,6 +109,7 @@ void settruth(int t);
 void setcount(int c);
 int truth(void);
 void modified(void);
+void freemem(void);
 
 /* move.c */
 
