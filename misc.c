@@ -55,7 +55,7 @@ newstrarea(void)
       string[i].str = nullstr;
       string[i].len = 0;
    }
-   /* initiualize strfree */
+   /* initialize strfree */
    string[NSTRING].str = strchars;
 }
 void
