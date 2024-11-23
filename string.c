@@ -33,8 +33,9 @@ startstring(void)
 void
 addstring(int c)
 {
-   if(strfree==strchars+NSTRCHARS)
+   if(strfree==strarea+nstrarea){
       strcompact();
+   }
    *strfree++ = c;
 }
 void
@@ -56,6 +57,10 @@ shiftstring(int up)
          sp->str += (ptrdiff_t)strarea;
       else
          sp->str -= (ptrdiff_t)strarea;
+   if(up)
+      strstart += (ptrdiff_t)strarea;
+   else
+      strstart -= (ptrdiff_t)strarea;
 }
 void
 clearstring(int z)
@@ -84,7 +89,7 @@ eqstr(char *a, char  *b)
 void
 dupstring(int z)
 {
-   if(strfree+string[z].len > strchars+NSTRCHARS)
+   if(strfree+string[z].len > strarea+nstrarea)
       strcompact();   /* if insufficient, will get error when we copystring() */
    copystring(string[z].str);
 }
@@ -96,8 +101,9 @@ setstring(int z)
       string[z].str = nullstr;
    else
       string[z].str = strstart;
-   if(strfree >= strchars + NSTRCHARS)
+   if(strfree >= strarea + nstrarea){
       strcompact();
+   }
 }
 void
 strcompact(void)
@@ -105,16 +111,19 @@ strcompact(void)
    struct string *cursor;
    struct string *thisstr=0;
    char *s, *t;
+   if(strfree>=strarea+nstrarea)
+      morestrarea();
+   return;
    lock++;
    s=strchars;
    for(;;){
-      t=strchars+NSTRCHARS;
+      t=strarea+nstrarea;
       for(cursor=string;cursor!=string+NSTRING;cursor++)
          if(s<=cursor->str && cursor->str<t){
             t = cursor->str;
             thisstr = cursor;
          }
-      if(t==strchars+NSTRCHARS)
+      if(t==strarea+nstrarea)
          break;
       thisstr->str=s;
       do;while((*s++ = *t++));
@@ -123,10 +132,9 @@ strcompact(void)
    strstart=s;
    while(t!=strfree)
       *s++ = *t++;
-   strfree=s;
-   if(s==strchars+NSTRCHARS){
-      strfree=strstart;
-      error('Z');
-   }
+   if(s==strarea+nstrarea)
+      morestrarea(); /* was error('Z'); */
+   else
+      strfree=s;
    unlock();
 }

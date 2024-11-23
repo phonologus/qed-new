@@ -12,6 +12,9 @@
 #define QUOTED(c) ((c) & ESCAPE)
 #define UNQUOT(c) ((c) & UNESCAPE)
 
+#define DOWN 0
+#define UP 1
+
 extern jmp_buf env;
 #define setexit() setjmp(env)
 #define reset() longjmp(env, 0)
@@ -111,8 +114,8 @@ struct string{
   char *str;
 };
 extern struct string string[NSTRING+1];
-#define NSTRCHARS  65536   /* go big or go home */
-extern char strarea[NSTRCHARS + 2];
+#define NSTRCHARS 512
+extern char *strarea;
 #define nullstr strarea
 #define strchars (&strarea[2])
 #define STACKSIZE 16
@@ -200,6 +203,7 @@ extern int bbempty; /* whether getc's internal buffer buffer needs reloading */
 extern char tfname[]/*="/tmp/qed.XXXXXXXXXX"*/;
 
 extern int aflag;  /* process regexes as 8-bit ascii, or UTF-8 */
+extern size_t nstrarea;
 
 #endif
 

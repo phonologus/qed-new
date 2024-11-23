@@ -1,12 +1,10 @@
 #include "qed.h"
 
-#define UP 1
-#define DOWN 0
-
 struct buffer buffer[NBUFS];
 struct buffer *curbuf=buffer;
 struct string string[NSTRING+1];
-char strarea[NSTRCHARS + 2];
+char *strarea;
+size_t nstrarea;
 struct stack stack[STACKSIZE];
 struct stack *stackp;
 
@@ -183,7 +181,7 @@ savall(void)
       error('S');;
    shiftbuf(UP);
    unlock();
-   write_long(fi,n = sizeof strarea);
+   write_long(fi,n = nstrarea);
    if(write(fi, strarea, n) != n)
       error('S');
    write_long(fi,n = sizeof string);
@@ -220,9 +218,10 @@ restor(void)
       error('R');
    /* DO: read size of strarea */
    n=read_long(fi);
+   strarea=reqlloc(strarea,n);
    if(read(fi, strarea,n) != n)
       error('R');
-   /* DO: read size of string */
+   /* read size of string */
    n=read_long(fi);
    if(read(fi, (char *)string,n) != n)
       error('R');
@@ -294,12 +293,7 @@ main(int argc, char **argv)
    onhup = signal(SIGHUP, SIG_IGN);
    onintr = signal(SIGINT, SIG_IGN);
    rvflag = 1;
-   for(i=0;i!=NSTRING;i++){
-      string[i].str = nullstr;
-      string[i].len=0;
-   }
-   /* initialize strfree */
-   string[NSTRING].str = strchars;
+   newstrarea();
    while(!optend && argc > 1 && **argv=='-'){
       switch(argv[0][1]){
       casedefault:
@@ -338,7 +332,7 @@ main(int argc, char **argv)
    tcgetattr(0,&ttybuf);
    if(startup==0)
       startup = getenv(QEDFILE);
-   newcore(LDCHUNK);
+   newcore();
    curbuf = buffer;
    init();
    if (onhup != SIG_IGN)

@@ -1,7 +1,9 @@
 #include "qed.h"
 
-void newcore(size_t x);
-void morecore(size_t x);
+void newcore(void);
+void morecore(void);
+void newstrarea(void);
+void morestrarea(void);
 void bufinit(ldesc *n);
 void chngbuf(int bb);
 void newbuf(int bb);
@@ -19,29 +21,53 @@ int truth(void);
 void modified(void);
 
 void
-newcore(size_t x)
+newcore(void)
 {
-   if(x<3)
-      error('c');
    free(begcore);
-   begcore = (ldesc *)qlloc(x*sizeof(ldesc));
-   fendcore = begcore + x;
+   begcore = (ldesc *)qlloc(LDCHUNK*sizeof(ldesc));
+   fendcore = begcore + LDCHUNK;
    endcore = fendcore - 2;
 }
 void
-morecore(size_t x)
+morecore(void)
 {
    ldesc *o1, *o2;
    size_t n;
    o1=begcore;
    o2=fendcore;
-   n=(o2-o1)+x+(LDCHUNK-1) & ~(LDCHUNK-1);
+   n=(o2-o1)+LDCHUNK;
    begcore=reqlloc(begcore,n * sizeof(ldesc));
    fendcore=begcore+n;
    endcore=fendcore-2;
-   memset(begcore+(o2-o1),0,x * sizeof(ldesc));
+   memset(begcore+(o2-o1),0,LDCHUNK * sizeof(ldesc));
    if(o1!=begcore)
       relocatebuf(o1,begcore);
+}
+void
+newstrarea(void)
+{
+   int i;
+   free(strarea);
+   nstrarea = 2+NSTRCHARS; /* initial 2 is for nullstr */
+   strarea = (char *)qlloc(nstrarea*sizeof(char));
+   memset(strarea,0,nstrarea);
+   for(i=0;i!=NSTRING;i++){
+      string[i].str = nullstr;
+      string[i].len = 0;
+   }
+   /* initiualize strfree */
+   string[NSTRING].str = strchars;
+}
+void
+morestrarea(void)
+{
+   size_t n;
+   n = nstrarea + NSTRCHARS;
+   shiftstring(DOWN);
+   strarea = (char *)reqlloc(strarea,n*sizeof(char));
+   memset(strarea+nstrarea,0,NSTRCHARS);
+   shiftstring(UP);
+   nstrarea=n;
 }
 
 void

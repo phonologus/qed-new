@@ -171,7 +171,7 @@ append(int (*f)(void), ldesc *a)
    dot = a;
    while ((*f)()==0) {
       if (lastdol>=endcore)
-         morecore(LDCHUNK);
+         morecore();
       tl = putline();
       nline++;
       lock++;

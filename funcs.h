@@ -90,8 +90,10 @@ void delall(void);
 
 /* misc.c */
 
-void newcore(size_t x);
-void morecore(size_t x);
+void newcore(void);
+void morecore(void);
+void newstrarea(void);
+void morestrarea(void);
 void bufinit(ldesc *n);
 void chngbuf(int bb);
 void newbuf(int bb);
