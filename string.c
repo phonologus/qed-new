@@ -111,9 +111,6 @@ strcompact(void)
    struct string *cursor;
    struct string *thisstr=0;
    char *s, *t;
-   if(strfree>=strarea+nstrarea)
-      morestrarea();
-   return;
    lock++;
    s=strchars;
    for(;;){
