@@ -12,6 +12,10 @@ a powerful, if somewhat cryptic, programming language.
 The version here has been updated to compile on a modern ANSI/POSIX
 system, and has had the ability to work with UTF-8 encoded text added.
 
+Many of the size-limits imposed by the original memory model
+have been removed, by dynamically allocating most in-memory
+containers on the heap, and growing them as required.
+
 This port supersedes, and renders obsolete, my previous port [here][Q].
 
 [Q]: https://github.com/phonologus/QED
