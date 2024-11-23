@@ -186,6 +186,7 @@ error(int code)
    }
    if(eflag && code){     /* temp file is *not* unlinked. Intentional? */
       free(begcore);
+      free(strarea);
       exit(code);
    }
    nestlevel = 0;

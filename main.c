@@ -97,6 +97,7 @@ rescue(int s)
    setstring(FILEBUF);
    savall();
    free(begcore);
+   free(strarea);
    exit(SIGHUP);
 }
 char *
@@ -247,6 +248,7 @@ interrupt(int s)
    if(iflag){
       unlink(tfname);
       free(begcore);
+      free(strarea);
       exit(SIGINT);
    }
    linp=line;
@@ -387,6 +389,7 @@ main(int argc, char **argv)
    commands();
    unlink(tfname);
    free(begcore);
+   free(strarea);
    exit(lasterr);
 }
 
@@ -623,6 +626,7 @@ commands(void)
       }
       unlink(tfname);
       free(begcore);
+      free(strarea);
       exit(0);   /* exit(0) not lasterr, otherwise caller gets confused */ 
    case 'r':
       newfile(TRUE, SAVEIFFIRST, string[savedfile].str);
