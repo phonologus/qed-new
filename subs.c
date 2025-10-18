@@ -1,4 +1,5 @@
 #include "qed.h"
+#include "vars.h"
 
 char *next_new;
 char *next_old;
@@ -122,7 +123,7 @@ compsub(int subbing, int *autop)
       }
       if (c==seof)
          break;
-      if (QUOTED(c) && UNQUOT(c)>='1' && UNQUOT(c)<'1'+nbra) {
+      if (QUOTED(c)) {
          *p++ = ESCBYTE;
          if (p >= &rhsbuf[RHSIZE])
             error('l');
@@ -164,16 +165,20 @@ dosub(void)
    next_old=loc2;
    p=rhsbuf;
    while ((c = *p++)) {
-      if (c=='&' || (c == '^' && uflag))
+      if (c=='&' || (c == '^' && uflag)) {
          place(loc1,loc2,c=='^');
-      else if (c == ESCBYTE) {
-         c=*p++;
-         place(braslist[c-'1'],braelist[c-'1'], 0);
-      } else {
-         if (next_new+u_length(c) >= genbuf+LBSIZE)
-            error('l');
-         u_load(next_new,c,p);
+         continue;
       }
+      if (c == ESCBYTE) {
+         c=*p++;
+         if(c>='1' && c<'1'+nbra) {
+            place(braslist[c-'1'],braelist[c-'1'], 0);
+            continue;
+         }
+      }
+      if (next_new+u_length(c) >= genbuf+LBSIZE)
+         error('l');
+      u_load(next_new,c,p);
    }
 }
 
